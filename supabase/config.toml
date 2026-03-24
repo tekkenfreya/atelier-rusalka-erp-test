@@ -1,0 +1,31 @@
+project_id = "kdjcbxjagaltvynvshkj"
+
+[functions.onedrive-auth]
+verify_jwt = false
+
+[functions.onedrive-callback]
+verify_jwt = false
+
+[functions.run-scheduled-export]
+verify_jwt = false
+
+[functions.send-report]
+verify_jwt = false
+
+[functions.sharepoint-auth]
+verify_jwt = false
+
+[functions.sharepoint-callback]
+verify_jwt = false
+
+[functions.sharepoint-sites]
+verify_jwt = false
+
+[functions.list-users]
+verify_jwt = false
+
+[functions.create-user]
+verify_jwt = false
+
+[functions.manage-user-role]
+verify_jwt = false
