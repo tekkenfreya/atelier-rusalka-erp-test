@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import {
@@ -196,6 +197,17 @@ const IngredientDetail = () => {
                   </p>
                 </div>
               </div>
+
+              {ingredient.skincare_priorities && ingredient.skincare_priorities.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-1">Skincare Priorities</h3>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {ingredient.skincare_priorities.map((priority: string) => (
+                      <Badge key={priority}>{priority}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {ingredient.comments && (
                 <div>
