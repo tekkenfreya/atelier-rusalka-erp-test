@@ -489,21 +489,7 @@ export const ProductForm = ({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="contains_fragrance"
-              render={({ field }) => (
-                <FormItem className="flex items-center justify-between rounded-lg border p-3">
-                  <FormLabel className="font-normal">Contains fragrance</FormLabel>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            {/* contains_fragrance toggle removed — fragrance is a customer choice (F0/F1/F2) on the results page */}
           </div>
         </div>
 
