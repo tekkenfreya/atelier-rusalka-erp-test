@@ -13,6 +13,7 @@ interface BatchIngredient {
   ingredient_name: string;
   percentage: string;
   phase?: string;
+  function?: string;
 }
 
 interface BatchMethodStep {
@@ -510,7 +511,7 @@ const BatchUpload = () => {
           if (!ingredientId) {
             const { data: newIngredient, error: createError } = await supabase
               .from("ingredients")
-              .insert({ name: ing.ingredient_name, type: "Ingredient" } as Record<string, unknown>)
+              .insert({ name: ing.ingredient_name, type: "Ingredient", function: ing.function || null } as Record<string, unknown>)
               .select("id")
               .single();
 
@@ -528,6 +529,14 @@ const BatchUpload = () => {
             summary.warnings.push(
               `Product "${p.name}": Ingredient "${ing.ingredient_name}" auto-created in database`
             );
+          }
+
+          // Update function on existing ingredient if JSON provides one
+          if (ing.function && ingredientId) {
+            await supabase
+              .from("ingredients")
+              .update({ function: ing.function } as Record<string, unknown>)
+              .eq("id", ingredientId);
           }
 
           ingredientRows.push({
