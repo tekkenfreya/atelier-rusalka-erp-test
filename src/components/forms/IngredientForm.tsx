@@ -247,9 +247,43 @@ export const IngredientForm = ({ initialData, onSubmit, onCancel }: IngredientFo
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Function</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="e.g., Emollient, Humectant" />
-                </FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select function" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Solvent">Solvent</SelectItem>
+                    <SelectItem value="Humectant">Humectant</SelectItem>
+                    <SelectItem value="Emulsifier">Emulsifier</SelectItem>
+                    <SelectItem value="Lipid">Lipid</SelectItem>
+                    <SelectItem value="Lipid / Emollient">Lipid / Emollient</SelectItem>
+                    <SelectItem value="Lipid / Active">Lipid / Active</SelectItem>
+                    <SelectItem value="Gum / Polymer">Gum / Polymer</SelectItem>
+                    <SelectItem value="Thickener / Stabiliser">Thickener / Stabiliser</SelectItem>
+                    <SelectItem value="Film-former">Film-former</SelectItem>
+                    <SelectItem value="Consistency Factor">Consistency Factor</SelectItem>
+                    <SelectItem value="Superfatting Agent">Superfatting Agent</SelectItem>
+                    <SelectItem value="Preservative">Preservative</SelectItem>
+                    <SelectItem value="Chelating Agent">Chelating Agent</SelectItem>
+                    <SelectItem value="pH Adjuster">pH Adjuster</SelectItem>
+                    <SelectItem value="Antioxidant">Antioxidant</SelectItem>
+                    <SelectItem value="Active">Active</SelectItem>
+                    <SelectItem value="Active (BHA)">Active (BHA)</SelectItem>
+                    <SelectItem value="Active (PHA)">Active (PHA)</SelectItem>
+                    <SelectItem value="Active (Peptide)">Active (Peptide)</SelectItem>
+                    <SelectItem value="Active (Retinoid)">Active (Retinoid)</SelectItem>
+                    <SelectItem value="Active (Retinol alternative)">Active (Retinol alternative)</SelectItem>
+                    <SelectItem value="Active (Hydrating)">Active (Hydrating)</SelectItem>
+                    <SelectItem value="Active (Antioxidant)">Active (Antioxidant)</SelectItem>
+                    <SelectItem value="Active (Azelaic Acid derivative)">Active (Azelaic Acid derivative)</SelectItem>
+                    <SelectItem value="Active / Soothing">Active / Soothing</SelectItem>
+                    <SelectItem value="Active / Barrier Support">Active / Barrier Support</SelectItem>
+                    <SelectItem value="EE Botanical Extract">EE Botanical Extract</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
