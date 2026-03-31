@@ -60,8 +60,21 @@ interface IngredientFormProps {
   onCancel: () => void;
 }
 
+interface Supplier {
+  id: string;
+  name: string;
+}
+
+interface FunctionCategory {
+  id: string;
+  name: string;
+  sort_order: number;
+}
+
 export const IngredientForm = ({ initialData, onSubmit, onCancel }: IngredientFormProps) => {
-  const [suppliers, setSuppliers] = useState<any[]>([]);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [functionCategories, setFunctionCategories] = useState<FunctionCategory[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(initialData?.image_url || "");
