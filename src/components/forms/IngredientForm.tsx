@@ -19,21 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { FormDescription } from "@/components/ui/form";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Upload, X } from "lucide-react";
-
-const SKINCARE_PRIORITIES = [
-  "Anti-aging",
-  "Brightening",
-  "Hydration",
-  "Calming",
-  "Clarifying",
-  "Repair",
-];
 
 const ingredientSchema = z.object({
   name: z.string().min(1, "Ingredient name is required"),
@@ -49,7 +38,6 @@ const ingredientSchema = z.object({
   amount_in_stock: z.coerce.number().optional().nullable(),
   quantity_unit: z.string().optional().or(z.literal("")),
   comments: z.string().optional().or(z.literal("")),
-  skincare_priorities: z.array(z.string()).optional(),
 });
 
 type IngredientFormData = z.infer<typeof ingredientSchema>;
@@ -60,21 +48,8 @@ interface IngredientFormProps {
   onCancel: () => void;
 }
 
-interface Supplier {
-  id: string;
-  name: string;
-}
-
-interface FunctionCategory {
-  id: string;
-  name: string;
-  sort_order: number;
-}
-
 export const IngredientForm = ({ initialData, onSubmit, onCancel }: IngredientFormProps) => {
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const [functionCategories, setFunctionCategories] = useState<FunctionCategory[]>([]);
-  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [suppliers, setSuppliers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(initialData?.image_url || "");
@@ -96,7 +71,6 @@ export const IngredientForm = ({ initialData, onSubmit, onCancel }: IngredientFo
       amount_in_stock: initialData?.amount_in_stock ?? undefined,
       quantity_unit: initialData?.quantity_unit || "",
       comments: initialData?.comments || "",
-      skincare_priorities: initialData?.skincare_priorities || [],
     },
   });
 
@@ -177,7 +151,6 @@ export const IngredientForm = ({ initialData, onSubmit, onCancel }: IngredientFo
         amount_in_stock: data.amount_in_stock || null,
         quantity_unit: data.quantity_unit || null,
         comments: data.comments || null,
-        skincare_priorities: data.skincare_priorities || [],
         image_url: imageUrl || undefined,
       };
       await onSubmit(cleanedData);
@@ -260,66 +233,13 @@ export const IngredientForm = ({ initialData, onSubmit, onCancel }: IngredientFo
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Function</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select function" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Solvent">Solvent</SelectItem>
-                    <SelectItem value="Humectant">Humectant</SelectItem>
-                    <SelectItem value="Emulsifier">Emulsifier</SelectItem>
-                    <SelectItem value="Lipid">Lipid</SelectItem>
-                    <SelectItem value="Thickener / Stabiliser">Thickener / Stabiliser</SelectItem>
-                    <SelectItem value="Preservative">Preservative</SelectItem>
-                    <SelectItem value="Chelating Agent">Chelating Agent</SelectItem>
-                    <SelectItem value="pH Adjuster">pH Adjuster</SelectItem>
-                    <SelectItem value="Antioxidant">Antioxidant</SelectItem>
-                    <SelectItem value="Active Phase-Shot">Active Phase-Shot</SelectItem>
-                    <SelectItem value="EE Botanical Extract">EE Botanical Extract</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <Input {...field} placeholder="e.g., Emollient, Humectant" />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div className="md:col-span-2">
-            <FormField
-              control={form.control}
-              name="skincare_priorities"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Skincare Priorities</FormLabel>
-                  <FormDescription>Which skincare priorities does this ingredient serve?</FormDescription>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {SKINCARE_PRIORITIES.map((priority) => {
-                      const selected = (field.value || []).includes(priority);
-                      return (
-                        <Badge
-                          key={priority}
-                          variant={selected ? "default" : "outline"}
-                          className="cursor-pointer select-none"
-                          onClick={() => {
-                            const current = field.value || [];
-                            const updated = selected
-                              ? current.filter((p: string) => p !== priority)
-                              : [...current, priority];
-                            field.onChange(updated);
-                          }}
-                        >
-                          {priority}
-                        </Badge>
-                      );
-                    })}
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
 
           <FormField
             control={form.control}

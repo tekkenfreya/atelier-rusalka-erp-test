@@ -27,7 +27,6 @@ import IngredientStockLevels from "./pages/reports/IngredientStockLevels";
 import StartupProjectCompletion from "./pages/reports/StartupProjectCompletion";
 import Settings from "./pages/Settings";
 import MySubscriptions from "./pages/MySubscriptions";
-import BatchUpload from "./pages/BatchUpload";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -277,16 +276,6 @@ const App = () => (
                 <ProtectedRoute>
                   <Layout>
                     <MySubscriptions />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/batch-upload"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <BatchUpload />
                   </Layout>
                 </ProtectedRoute>
               }

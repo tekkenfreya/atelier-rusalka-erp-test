@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Table,
@@ -9,40 +8,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Eye } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTableSort } from "@/hooks/useTableSort";
 import SortableHeader from "./SortableHeader";
-import { format } from "date-fns";
-
-interface ProductRow {
-  id: string;
-  name: string;
-  category: string | null;
-  product_level: string | null;
-  skin_type: string | null;
-  formulator: string | null;
-  status_of_tests: string | null;
-  created_at: string | null;
-  manufacturer?: { name: string } | null;
-}
 
 interface ProductsTableProps {
-  products: ProductRow[];
+  products: any[];
   loading: boolean;
   isAdmin: boolean;
 }
 
 const ProductsTable = ({ products, loading, isAdmin }: ProductsTableProps) => {
   const navigate = useNavigate();
-  const [dateFilter, setDateFilter] = useState("");
-
-  const filtered = dateFilter
-    ? products.filter((p) => p.created_at && p.created_at.startsWith(dateFilter))
-    : products;
-
-  const { sortedData, sortKey, sortDirection, handleSort } = useTableSort(filtered, "name");
+  const { sortedData, sortKey, sortDirection, handleSort } = useTableSort(products, "name");
 
   if (loading) {
     return (
@@ -63,25 +42,7 @@ const ProductsTable = ({ products, loading, isAdmin }: ProductsTableProps) => {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center gap-3">
-        <Input
-          type="date"
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-          className="w-48"
-          placeholder="Filter by date"
-        />
-        {dateFilter && (
-          <Button variant="ghost" size="sm" onClick={() => setDateFilter("")}>
-            Clear
-          </Button>
-        )}
-        <span className="text-sm text-muted-foreground">
-          {filtered.length} product{filtered.length !== 1 ? "s" : ""}
-        </span>
-      </div>
-      <div className="rounded-md border">
+    <div className="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
@@ -134,13 +95,6 @@ const ProductsTable = ({ products, loading, isAdmin }: ProductsTableProps) => {
               sortDirection={sortDirection}
               onSort={handleSort}
             />
-            <SortableHeader
-              label="Date Added"
-              sortKey="created_at"
-              currentSortKey={sortKey as string}
-              sortDirection={sortDirection}
-              onSort={handleSort}
-            />
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -169,11 +123,6 @@ const ProductsTable = ({ products, loading, isAdmin }: ProductsTableProps) => {
                   {product.status_of_tests || "Pending"}
                 </span>
               </TableCell>
-              <TableCell className="text-sm text-muted-foreground">
-                {product.created_at
-                  ? format(new Date(product.created_at), "dd MMM yyyy")
-                  : "—"}
-              </TableCell>
               <TableCell className="text-right">
                 <Button
                   variant="ghost"
@@ -187,7 +136,6 @@ const ProductsTable = ({ products, loading, isAdmin }: ProductsTableProps) => {
           ))}
         </TableBody>
       </Table>
-      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LogOut, Package, Beaker, Factory, Truck, Users, ShoppingCart, CalendarClock, Settings, ChevronDown, Mail, Upload } from "lucide-react";
+import { LogOut, Package, Beaker, Factory, Truck, Users, ShoppingCart, CalendarClock, Settings, ChevronDown, Mail } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +25,6 @@ const Layout = ({ children }: LayoutProps) => {
     { name: "Manufacturers", href: "/manufacturers", icon: Factory },
     { name: "Procurement", href: "/procurement", icon: ShoppingCart },
     ...(isAdmin ? [{ name: "Users", href: "/users", icon: Users }] : []),
-    ...(isAdmin ? [{ name: "Batch Upload", href: "/batch-upload", icon: Upload }] : []),
     ...((isAdmin || isEditor) ? [{ name: "Reporting", href: "/scheduled-exports", icon: CalendarClock }] : []),
   ];
 
